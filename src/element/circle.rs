@@ -3,6 +3,7 @@ use svg::node::element::Circle as SvgCircle;
 use crate::attribute::{
     AbsPos,
     Fill,
+    Stroke,
 };
 use crate::literal::{
     Length,
@@ -36,6 +37,7 @@ impl AbsPos for Circle {
 }
 
 crate::attribute::fill::implement_fill! { Circle, svg }
+crate::attribute::stroke::implement_stroke! { Circle, svg }
 
 /*
 impl Fill for Circle {

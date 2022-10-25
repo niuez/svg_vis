@@ -5,6 +5,7 @@ use svg::node::element::path::{
 use crate::attribute::{
     AbsPos,
     Fill,
+    Stroke,
 };
 
 use crate::literal::{
@@ -93,17 +94,19 @@ impl AbsPos for Path {
 }
 
 crate::attribute::fill::implement_fill! { Path, path }
+crate::attribute::stroke::implement_stroke! { Path, path }
 
 #[cfg(test)]
 mod path_tests {
     use crate::chart::Chart;
     use super::Path;
-    use crate::attribute::Fill;
+    use crate::attribute::{ Fill, Stroke };
     #[test]
     fn path_test1() {
         let ch = Chart::new(0, 0, 100, 100);
         let p1 = Path::new()
             .fill("none")
+            .stroke("red")
             .move_rel(10, 70)
             .line_rel(10, -10)
             .line_rel(10, -20)

@@ -19,3 +19,5 @@
 
 - `attribute`
   - `fill`
+  - `stroke`
+  - `stroke-width`

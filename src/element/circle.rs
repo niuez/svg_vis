@@ -1,7 +1,8 @@
 use svg::node::Value;
 use svg::node::element::Circle as SvgCircle;
 use crate::attribute::{
-    AbsPos
+    Length,
+    AbsPos,
 };
 
 pub struct Circle {
@@ -22,10 +23,10 @@ impl Circle {
 
 impl AbsPos for Circle {
     type Output = SvgCircle;
-    fn set_abs_pos<X: Into<Value>, Y: Into<Value>>(self, x: X, y: Y) -> Self::Output {
+    fn set_abs_pos<X: Into<Length>, Y: Into<Length>>(self, x: X, y: Y) -> Self::Output {
         self.svg
-            .set("cx", x)
-            .set("cy", y)
+            .set("cx", x.into())
+            .set("cy", y.into())
     }
 }
 

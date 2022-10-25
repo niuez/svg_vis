@@ -1,6 +1,6 @@
 use svg::Document;
-use svg::node::Value;
 use crate::attribute::{
+    Length,
     AbsPos,
 };
 
@@ -15,7 +15,7 @@ impl Chart {
                 .set("ViewBox", (x, y, width, height)),
         }
     }
-    pub fn draw<E: AbsPos, X: Into<Value>, Y: Into<Value>>(mut self, elem: E, x: X, y: Y) -> Self {
+    pub fn draw<E: AbsPos, X: Into<Length>, Y: Into<Length>>(mut self, elem: E, x: X, y: Y) -> Self {
         self.svg = self.svg.add(elem.set_abs_pos(x, y));
         self
     }

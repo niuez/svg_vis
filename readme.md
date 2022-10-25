@@ -16,3 +16,6 @@
   - `quadratic curve`
   - `cubic curve`
   - `close`
+
+- `attribute`
+  - `fill`

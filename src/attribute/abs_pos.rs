@@ -1,7 +1,9 @@
 use svg::node::{
     Node
 };
-use super::Length;
+use crate::literal::{
+    Length,
+};
 
 pub trait AbsPos {
     type Output: Node;

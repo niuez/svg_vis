@@ -3,8 +3,13 @@ use svg::node::element::path::{
     Data as SvgData,
 };
 use crate::attribute::{
-    Length,
     AbsPos,
+    Fill,
+};
+
+use crate::literal::{
+    Length,
+    Color,
 };
 
 #[derive(Clone)]
@@ -87,14 +92,18 @@ impl AbsPos for Path {
     }
 }
 
+crate::attribute::fill::implement_fill! { Path, path }
+
 #[cfg(test)]
 mod path_tests {
     use crate::chart::Chart;
     use super::Path;
+    use crate::attribute::Fill;
     #[test]
     fn path_test1() {
         let ch = Chart::new(0, 0, 100, 100);
         let p1 = Path::new()
+            .fill("none")
             .move_rel(10, 70)
             .line_rel(10, -10)
             .line_rel(10, -20)

@@ -1,9 +1,14 @@
 use svg::node::Value;
 use svg::node::element::Circle as SvgCircle;
 use crate::attribute::{
-    Length,
     AbsPos,
+    Fill,
 };
+use crate::literal::{
+    Length,
+    Color,
+};
+
 
 pub struct Circle {
     svg: SvgCircle,
@@ -30,17 +35,29 @@ impl AbsPos for Circle {
     }
 }
 
+crate::attribute::fill::implement_fill! { Circle, svg }
+
+/*
+impl Fill for Circle {
+    fn fill<C: Into<Color>>(mut self, color: C) -> Self {
+        self.svg = self.svg.set("fill", color.into());
+        self
+    }
+}
+*/
+
 #[cfg(test)]
 mod circle_tests {
     use crate::chart::Chart;
     use super::Circle;
+    use crate::attribute::Fill;
     #[test]
     fn circle_test1() {
         let ch = Chart::new(0, 0, 100, 100);
-        let c1 = Circle::new().radius(5);
-        let c2 = Circle::new().radius(10);
-        let c3 = Circle::new().radius(15);
-        let c4 = Circle::new().radius(20);
+        let c1 = Circle::new().radius(5).fill("red");
+        let c2 = Circle::new().radius(10).fill("blue");
+        let c3 = Circle::new().radius(15).fill("green");
+        let c4 = Circle::new().radius(20).fill("black");
         let ch = ch
             .draw(c1, 5, 50)
             .draw(c2, 20, 50)

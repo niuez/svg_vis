@@ -1,7 +1,9 @@
 use svg::Document;
 use crate::attribute::{
-    Length,
     AbsPos,
+};
+use crate::literal::{
+    Length,
 };
 
 pub struct Chart {

@@ -6,3 +6,6 @@ pub use fill::Fill;
 
 pub mod stroke;
 pub use stroke::Stroke;
+
+pub mod stroke_width;
+pub use stroke_width::StrokeWidth;

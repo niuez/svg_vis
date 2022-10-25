@@ -6,6 +6,7 @@ use crate::attribute::{
     AbsPos,
     Fill,
     Stroke,
+    StrokeWidth,
 };
 
 use crate::literal::{
@@ -95,18 +96,20 @@ impl AbsPos for Path {
 
 crate::attribute::fill::implement_fill! { Path, path }
 crate::attribute::stroke::implement_stroke! { Path, path }
+crate::attribute::stroke_width::implement_stroke_width! { Path, path }
 
 #[cfg(test)]
 mod path_tests {
     use crate::chart::Chart;
     use super::Path;
-    use crate::attribute::{ Fill, Stroke };
+    use crate::attribute::{ Fill, Stroke, StrokeWidth };
     #[test]
     fn path_test1() {
         let ch = Chart::new(0, 0, 100, 100);
         let p1 = Path::new()
             .fill("none")
             .stroke("red")
+            .stroke_width(3)
             .move_rel(10, 70)
             .line_rel(10, -10)
             .line_rel(10, -20)

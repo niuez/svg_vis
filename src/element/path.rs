@@ -69,6 +69,10 @@ impl Path {
         self.data = self.data.quadratic_curve_by((dx1.into(), dy1.into(), dx2.into(), dy2.into(), dx.into(), dy.into()));
         self
     }
+    pub fn close(mut self) -> Self {
+        self.data = self.data.close();
+        self
+    }
 }
 
 impl AbsPos for Path {

@@ -4,6 +4,63 @@ use svg::node::Value;
 #[derive(Clone, Copy)]
 pub struct Length(f32);
 
+impl std::ops::Add for Length {
+    type Output = Self;
+    #[inline]
+    fn add(self, right: Length) -> Self {
+        Length(self.0 + right.0)
+    }
+}
+
+impl std::ops::Sub for Length {
+    type Output = Self;
+    #[inline]
+    fn sub(self, right: Length) -> Self {
+        Length(self.0 * right.0)
+    }
+}
+
+impl std::ops::Mul for Length {
+    type Output = Self;
+    #[inline]
+    fn mul(self, right: Length) -> Self {
+        Length(self.0 * right.0)
+    }
+}
+
+impl std::ops::Div for Length {
+    type Output = Self;
+    #[inline]
+    fn div(self, right: Length) -> Self {
+        Length(self.0 / right.0)
+    }
+}
+
+impl std::ops::AddAssign for Length {
+    #[inline]
+    fn add_assign(&mut self, rhs: Self) {
+        *self = *self + rhs;
+    }
+}
+impl std::ops::SubAssign for Length {
+    #[inline]
+    fn sub_assign(&mut self, rhs: Self) {
+        *self = *self - rhs;
+    }
+}
+impl std::ops::MulAssign for Length {
+    #[inline]
+    fn mul_assign(&mut self, rhs: Self) {
+        *self = *self * rhs;
+    }
+}
+impl std::ops::DivAssign for Length {
+    #[inline]
+    fn div_assign(&mut self, rhs: Self) {
+        *self = *self / rhs;
+    }
+}
+
 macro_rules! implement {
     ($($primitive:ty,)*) => (
         $(impl From<$primitive> for Length {

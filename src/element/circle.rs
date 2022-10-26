@@ -6,6 +6,7 @@ use crate::attribute::{
     Stroke,
     StrokeWidth,
 };
+use crate::attribute::abs_pos::Scale;
 use crate::literal::{
     Length,
     Color,
@@ -31,10 +32,10 @@ impl Circle {
 
 impl AbsPos for Circle {
     type Output = SvgCircle;
-    fn set_abs_pos<X: Into<Length>, Y: Into<Length>>(self, x: X, y: Y) -> Self::Output {
+    fn set_abs_pos<X: Into<Length>, Y: Into<Length>>(self, x: X, y: Y, scale: &Scale) -> Self::Output {
         self.svg
-            .set("cx", x.into())
-            .set("cy", y.into())
+            .set("cx", x.into() * scale.x)
+            .set("cy", y.into() * scale.y)
     }
 }
 
@@ -68,6 +69,14 @@ mod circle_tests {
             .draw(c2, 20, 50)
             .draw(c3, 45, 50)
             .draw(c4, 80, 50);
+        println!("{}", ch);
+    }
+    #[test]
+    fn circle_test2() {
+        let ch = Chart::new(0, 0, 100, 100)
+            .scale(0.2, 0.2);
+        let c4 = Circle::new().radius(20).fill("black").fill_opacity(1);
+        let ch = ch.draw(c4, 100, 100);
         println!("{}", ch);
     }
 }

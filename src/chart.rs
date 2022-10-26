@@ -2,12 +2,13 @@ use svg::Document;
 use crate::attribute::{
     AbsPos,
 };
-use crate::literal::{
-    Length,
-};
+use crate::literal::Length;
+use crate::attribute::abs_pos::Scale;
+
 
 pub struct Chart {
     svg: Document,
+    scale: Scale,
 }
 
 impl Chart {
@@ -15,10 +16,15 @@ impl Chart {
         Chart {
             svg: Document::new()
                 .set("ViewBox", (x, y, width, height)),
+            scale: Scale::new(),
         }
     }
+    pub fn scale(mut self, x: f32, y: f32) -> Self {
+        self.scale = Scale::xy(x, y);
+        self
+    }
     pub fn draw<E: AbsPos, X: Into<Length>, Y: Into<Length>>(mut self, elem: E, x: X, y: Y) -> Self {
-        self.svg = self.svg.add(elem.set_abs_pos(x, y));
+        self.svg = self.svg.add(elem.set_abs_pos(x.into() * self.scale.x, y.into() * self.scale.y, &self.scale));
         self
     }
 }

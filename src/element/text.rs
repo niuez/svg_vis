@@ -8,6 +8,7 @@ use crate::attribute::{
     TextAnchor,
     DominantBaseline,
 };
+use crate::attribute::abs_pos::Scale;
 use crate::attribute::text_anchor::TextAnchorValue;
 use crate::attribute::dominant_baseline::DominantBaselineValue;
 use crate::literal::{
@@ -42,11 +43,11 @@ crate::attribute::dominant_baseline::implement_dominant_baseline!{ Text, svg }
 
 impl AbsPos for Text {
     type Output = SvgText;
-    fn set_abs_pos<X: Into<Length>, Y: Into<Length>>(self, x: X, y: Y) -> Self::Output {
+    fn set_abs_pos<X: Into<Length>, Y: Into<Length>>(self, x: X, y: Y, scale: &Scale) -> Self::Output {
         self.svg
             .add(TextContent::new(self.text))
-            .set("x", x.into())
-            .set("y", y.into())
+            .set("x", x.into() * scale.x)
+            .set("y", y.into() * scale.y)
     }
 }
 

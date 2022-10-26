@@ -83,18 +83,20 @@ impl Path {
 
 impl AbsPos for Path {
     type Output = SvgPath;
-    fn set_abs_pos<X: Into<Length>, Y: Into<Length>>(self, x: X, y: Y, scale: &Scale) -> Self::Output {
+    fn set_abs_pos<X: Into<Length>, Y: Into<Length>>(self, ox: X, oy: Y, scale: &Scale) -> Self::Output {
+        let ox = ox.into();
+        let oy = oy.into();
         let data = self.data.into_iter().fold(
-            SvgData::new().move_to((x.into(), y.into())),
+            SvgData::new().move_to((ox, oy)),
             |data, com| {
                 match com {
-                    Command::MoveTo(x, y) => data.move_to((x * scale.x, y * scale.y)),
+                    Command::MoveTo(x, y) => data.move_to((x * scale.x + ox, y * scale.y + oy)),
                     Command::MoveBy(x, y) => data.move_by((x * scale.x, y * scale.y)),
-                    Command::LineTo(x, y) => data.line_to((x * scale.x, y * scale.y)),
+                    Command::LineTo(x, y) => data.line_to((x * scale.x + ox, y * scale.y + oy)),
                     Command::LineBy(x, y) => data.line_by((x * scale.x, y * scale.y)),
-                    Command::QCurTo(x1, y1, x, y) => data.quadratic_curve_to((x1 * scale.x, y1 * scale.y, x * scale.x, y * scale.y)),
+                    Command::QCurTo(x1, y1, x, y) => data.quadratic_curve_to((x1 * scale.x + ox, y1 * scale.y + oy, x * scale.x + ox, y * scale.y + oy)),
                     Command::QCurBy(x1, y1, x, y) => data.quadratic_curve_by((x1 * scale.x, y1 * scale.y, x * scale.x, y * scale.y)),
-                    Command::CCurTo(x1, y1, x2, y2, x, y) => data.cubic_curve_to((x1 * scale.x, y1 * scale.y, x2 * scale.x, y2 * scale.y, x * scale.x, y * scale.y)),
+                    Command::CCurTo(x1, y1, x2, y2, x, y) => data.cubic_curve_to((x1 * scale.x + ox, y1 * scale.y + oy, x2 * scale.x + ox, y2 * scale.y + oy, x * scale.x + ox, y * scale.y + oy)),
                     Command::CCurBy(x1, y1, x2, y2, x, y) => data.cubic_curve_by((x1 * scale.x, y1 * scale.y, x2 * scale.x, y2 * scale.y, x * scale.x, y * scale.y)),
                     Command::Close => data.close(),
                 }

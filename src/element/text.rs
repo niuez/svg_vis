@@ -6,8 +6,10 @@ use crate::attribute::{
     Stroke,
     StrokeWidth,
     TextAnchor,
+    DominantBaseline,
 };
 use crate::attribute::text_anchor::TextAnchorValue;
+use crate::attribute::dominant_baseline::DominantBaselineValue;
 use crate::literal::{
     Length,
     Color,
@@ -36,6 +38,7 @@ crate::attribute::fill::implement_fill! { Text, svg }
 crate::attribute::stroke::implement_stroke! { Text, svg }
 crate::attribute::stroke_width::implement_stroke_width! { Text, svg }
 crate::attribute::text_anchor::implement_text_anchor!{ Text, svg }
+crate::attribute::dominant_baseline::implement_dominant_baseline!{ Text, svg }
 
 impl AbsPos for Text {
     type Output = SvgText;
@@ -56,9 +59,11 @@ mod text_tests {
     use crate::attribute::{
         Fill,
         TextAnchor,
+        DominantBaseline,
         Stroke,
     };
     use crate::attribute::text_anchor::TextAnchorValue;
+    use crate::attribute::dominant_baseline::DominantBaselineValue;
     #[test]
     fn text_test1() {
         let ch = Chart::new(0, 0, 60, 70);
@@ -84,6 +89,26 @@ mod text_tests {
             .draw(t1, 30, 10)
             .draw(t2, 30, 30)
             .draw(t3, 30, 50);
+        println!("{}", ch);
+    }
+    #[test]
+    fn text_test2() {
+        let ch = Chart::new(0, 0, 30, 30);
+        let t1 = Text::new()
+            .set_text("##")
+            .fill("red")
+            .text_anchor(TextAnchorValue::Middle)
+            .dominant_baseline(DominantBaselineValue::Central);
+        let center_path = Path::new()
+            .move_rel(15, 0)
+            .line_rel(0, 30)
+            .move_rel(-15, -15)
+            .line_rel(30, 0)
+            .fill("none")
+            .stroke("black");
+        let ch = ch
+            .draw(center_path, 0, 0)
+            .draw(t1, 15, 15);
         println!("{}", ch);
     }
 }

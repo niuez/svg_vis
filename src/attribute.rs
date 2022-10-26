@@ -12,3 +12,6 @@ pub use stroke_width::StrokeWidth;
 
 pub mod text_anchor;
 pub use text_anchor::TextAnchor;
+
+pub mod dominant_baseline;
+pub use dominant_baseline::DominantBaseline;

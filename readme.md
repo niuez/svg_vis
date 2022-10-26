@@ -19,5 +19,7 @@
 
 - `attribute`
   - `fill`
+  - `fill-opacity`
   - `stroke`
   - `stroke-width`
+

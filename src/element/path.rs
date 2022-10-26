@@ -12,6 +12,7 @@ use crate::attribute::{
 use crate::literal::{
     Length,
     Color,
+    Percentage,
 };
 
 #[derive(Clone)]

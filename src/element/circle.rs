@@ -9,6 +9,7 @@ use crate::attribute::{
 use crate::literal::{
     Length,
     Color,
+    Percentage,
 };
 
 
@@ -58,10 +59,10 @@ mod circle_tests {
     #[test]
     fn circle_test1() {
         let ch = Chart::new(0, 0, 100, 100);
-        let c1 = Circle::new().radius(5).fill("red");
-        let c2 = Circle::new().radius(10).fill("blue");
-        let c3 = Circle::new().radius(15).fill("green");
-        let c4 = Circle::new().radius(20).fill("black");
+        let c1 = Circle::new().radius(5).fill("red").fill_opacity(0.25);
+        let c2 = Circle::new().radius(10).fill("blue").fill_opacity(0.5);
+        let c3 = Circle::new().radius(15).fill("green").fill_opacity(0.75);
+        let c4 = Circle::new().radius(20).fill("black").fill_opacity(1);
         let ch = ch
             .draw(c1, 5, 50)
             .draw(c2, 20, 50)

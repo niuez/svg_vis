@@ -16,69 +16,66 @@ use crate::literal::{
 };
 
 #[derive(Clone)]
+enum Command {
+    MoveTo(Length, Length),
+    MoveBy(Length, Length),
+    LineTo(Length, Length),
+    LineBy(Length, Length),
+    QCurTo(Length, Length, Length, Length),
+    QCurBy(Length, Length, Length, Length),
+    CCurTo(Length, Length, Length, Length, Length, Length),
+    CCurBy(Length, Length, Length, Length, Length, Length),
+    Close,
+}
+
+#[derive(Clone)]
 pub struct Path {
     path: SvgPath,
-    data: SvgData,
+    data: Vec<Command>,
 }
 
 impl Path {
     pub fn new() -> Self {
         Path {
             path: SvgPath::new(),
-            data: SvgData::new(),
+            data: Vec::new(),
         }
     }
 
     pub fn move_abs<X: Into<Length>, Y: Into<Length>>(mut self, x: X, y: Y) -> Self {
-        self.data = self.data.move_to((x.into(), y.into()));
+        self.data.push(Command::MoveTo(x.into(), y.into()));
         self
     }
     pub fn move_rel<X: Into<Length>, Y: Into<Length>>(mut self, dx: X, dy: Y) -> Self {
-        self.data = self.data.move_by((dx.into(), dy.into()));
+        self.data.push(Command::MoveBy(dx.into(), dy.into()));
         self
     }
     pub fn line_abs<X: Into<Length>, Y: Into<Length>>(mut self, x: X, y: Y) -> Self {
-        self.data = self.data.line_to((x.into(), y.into()));
+        self.data.push(Command::LineTo(x.into(), y.into()));
         self
     }
     pub fn line_rel<X: Into<Length>, Y: Into<Length>>(mut self, dx: X, dy: Y) -> Self {
-        self.data = self.data.line_by((dx.into(), dy.into()));
-        self
-    }
-    pub fn horizontal_line_abs<X: Into<Length>>(mut self, x: X) -> Self {
-        self.data = self.data.horizontal_line_to(x.into());
-        self
-    }
-    pub fn hor_line_rel<X: Into<Length>>(mut self, dx: X) -> Self {
-        self.data = self.data.horizontal_line_by(dx.into());
-        self
-    }
-    pub fn ver_line_abs<Y: Into<Length>>(mut self, y: Y) -> Self {
-        self.data = self.data.vertical_line_to(y.into());
-        self
-    }
-    pub fn ver_line_rel<Y: Into<Length>>(mut self, dy: Y) -> Self {
-        self.data = self.data.vertical_line_by(dy.into());
+        self.data.push(Command::LineBy(dx.into(), dy.into()));
         self
     }
     pub fn quad_curve_abs<X1: Into<Length>, Y1: Into<Length>, X: Into<Length>, Y: Into<Length>>(mut self, x1: X1, y1: Y1, x: X, y: Y) -> Self {
-        self.data = self.data.quadratic_curve_to((x1.into(), y1.into(), x.into(), y.into()));
+        self.data.push(Command::QCurTo(x1.into(), y1.into(), x.into(), y.into()));
         self
     }
     pub fn quad_curve_rel<X1: Into<Length>, Y1: Into<Length>, X: Into<Length>, Y: Into<Length>>(mut self, dx1: X1, dy1: Y1, dx: X, dy: Y) -> Self {
-        self.data = self.data.quadratic_curve_by((dx1.into(), dy1.into(), dx.into(), dy.into()));
+        self.data.push(Command::QCurBy(dx1.into(), dy1.into(), dx.into(), dy.into()));
         self
     }
     pub fn cubic_curve_abs<X1: Into<Length>, Y1: Into<Length>, X2: Into<Length>, Y2: Into<Length>, X: Into<Length>, Y: Into<Length>>(mut self, x1: X1, y1: Y1, x2: X2, y2: Y2, x: X, y: Y) -> Self {
-        self.data = self.data.quadratic_curve_to((x1.into(), y1.into(), x2.into(), y2.into(), x.into(), y.into()));
+        self.data.push(Command::CCurTo(x1.into(), y1.into(), x2.into(), y2.into(), x.into(), y.into()));
         self
     }
     pub fn cubic_curve_rel<X1: Into<Length>, Y1: Into<Length>, X2: Into<Length>, Y2: Into<Length>, X: Into<Length>, Y: Into<Length>>(mut self, dx1: X1, dy1: Y1, dx2: X2, dy2: Y2, dx: X, dy: Y) -> Self {
-        self.data = self.data.quadratic_curve_by((dx1.into(), dy1.into(), dx2.into(), dy2.into(), dx.into(), dy.into()));
+        self.data.push(Command::CCurBy(dx1.into(), dy1.into(), dx2.into(), dy2.into(), dx.into(), dy.into()));
         self
     }
     pub fn close(mut self) -> Self {
-        self.data = self.data.close();
+        self.data.push(Command::Close);
         self
     }
 }
@@ -86,11 +83,22 @@ impl Path {
 impl AbsPos for Path {
     type Output = SvgPath;
     fn set_abs_pos<X: Into<Length>, Y: Into<Length>>(self, x: X, y: Y) -> Self::Output {
-        let mut data = SvgData::new()
-            .move_to((x.into(), y.into()));
-        for com in self.data.into_iter() {
-            data = data.add(com.clone());
-        }
+
+        let data = self.data.into_iter().fold(
+            SvgData::new().move_to((x.into(), y.into())),
+            |data, com| {
+                match com {
+                    Command::MoveTo(x, y) => data.move_to((x, y)),
+                    Command::MoveBy(x, y) => data.move_by((x, y)),
+                    Command::LineTo(x, y) => data.line_to((x, y)),
+                    Command::LineBy(x, y) => data.line_by((x, y)),
+                    Command::QCurTo(x1, y1, x, y) => data.quadratic_curve_to((x1, y1, x, y)),
+                    Command::QCurBy(x1, y1, x, y) => data.quadratic_curve_by((x1, y1, x, y)),
+                    Command::CCurTo(x1, y1, x2, y2, x, y) => data.cubic_curve_to((x1, y1, x2, y2, x, y)),
+                    Command::CCurBy(x1, y1, x2, y2, x, y) => data.cubic_curve_by((x1, y1, x2, y2, x, y)),
+                    Command::Close => data.close(),
+                }
+            });
         self.path.set("d", data)
     }
 }

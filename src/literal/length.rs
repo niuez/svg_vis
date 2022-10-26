@@ -1,6 +1,7 @@
 use svg::node::element::path::Parameters;
 use svg::node::Value;
 
+#[derive(Clone, Copy)]
 pub struct Length(f32);
 
 macro_rules! implement {

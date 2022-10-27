@@ -43,11 +43,11 @@ crate::attribute::dominant_baseline::implement_dominant_baseline!{ Text, svg }
 
 impl AbsPos for Text {
     type Output = SvgText;
-    fn set_abs_pos<X: Into<Length>, Y: Into<Length>>(self, x: X, y: Y, scale: &Scale) -> Self::Output {
+    fn set_abs_pos<X: Into<Length>, Y: Into<Length>>(self, x: X, y: Y, _scale: &Scale) -> Self::Output {
         self.svg
             .add(TextContent::new(self.text))
-            .set("x", x.into() * scale.x)
-            .set("y", y.into() * scale.y)
+            .set("x", x.into())
+            .set("y", y.into())
     }
 }
 

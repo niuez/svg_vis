@@ -1,5 +1,6 @@
 use svg::node::element::Text as SvgText;
 use svg::node::Text as TextContent;
+use svg::node::Value;
 use crate::attribute::{
     AbsPos,
     Fill,
@@ -7,6 +8,7 @@ use crate::attribute::{
     StrokeWidth,
     TextAnchor,
     DominantBaseline,
+    FontSize,
 };
 use crate::attribute::abs_pos::Scale;
 use crate::attribute::text_anchor::TextAnchorValue;
@@ -20,6 +22,7 @@ use crate::literal::{
 pub struct Text {
     svg: SvgText,
     text: String,
+    font_size: Option<Length>,
 }
 
 impl Text {
@@ -27,6 +30,7 @@ impl Text {
         Text {
             svg: SvgText::new(),
             text: String::new(),
+            font_size: None,
         }
     }
     pub fn set_text<S: ToString>(mut self, text: S) -> Self {
@@ -41,13 +45,21 @@ crate::attribute::stroke_width::implement_stroke_width! { Text, svg }
 crate::attribute::text_anchor::implement_text_anchor!{ Text, svg }
 crate::attribute::dominant_baseline::implement_dominant_baseline!{ Text, svg }
 
+impl FontSize for Text {
+    fn font_size<L: Into<Length>>(mut self, size: L) -> Self {
+        self.font_size = Some(size.into());
+        self
+    }
+}
+
 impl AbsPos for Text {
     type Output = SvgText;
-    fn set_abs_pos<X: Into<Length>, Y: Into<Length>>(self, x: X, y: Y, _scale: &Scale) -> Self::Output {
+    fn set_abs_pos<X: Into<Length>, Y: Into<Length>>(self, x: X, y: Y, scale: &Scale) -> Self::Output {
         self.svg
             .add(TextContent::new(self.text))
             .set("x", x.into())
             .set("y", y.into())
+            .set("font-size", self.font_size.map(|l| (l * scale.y).into()).unwrap_or(Value::from("medium")))
     }
 }
 

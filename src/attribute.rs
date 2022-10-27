@@ -15,3 +15,6 @@ pub use text_anchor::TextAnchor;
 
 pub mod dominant_baseline;
 pub use dominant_baseline::DominantBaseline;
+
+pub mod font_size;
+pub use font_size::FontSize;

@@ -13,7 +13,7 @@ pub struct Chart {
 }
 
 impl Chart {
-    pub fn new(x: u64, y: u64, width: u64, height: u64) -> Self {
+    pub fn new(x: i64, y: i64, width: i64, height: i64) -> Self {
         Chart {
             svg: Document::new()
                 .set("ViewBox", (x, y, width, height)),

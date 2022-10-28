@@ -1,7 +1,7 @@
 use crate::literal::Length;
 
 pub trait StrokeWidth {
-    fn stroke_width<L: Into<Length>>(self, color: L) -> Self;
+    fn stroke_width<L: Into<Length>>(self, w: L) -> Self;
 }
 
 macro_rules! implement_stroke_width {

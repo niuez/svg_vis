@@ -1,3 +1,5 @@
+pub mod colormap;
+
 use svg::node::Value;
 
 pub enum Color {

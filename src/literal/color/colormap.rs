@@ -1,4 +1,5 @@
 pub mod jet;
+pub use jet::Jet;
 
 use super::Color;
 

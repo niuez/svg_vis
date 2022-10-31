@@ -5,6 +5,7 @@ use crate::attribute::{
     Fill,
     Stroke,
     StrokeWidth,
+    ID,
 };
 use crate::attribute::abs_pos::Scale;
 use crate::literal::{
@@ -42,6 +43,7 @@ impl AbsPos for Circle {
 crate::attribute::fill::implement_fill! { Circle, svg }
 crate::attribute::stroke::implement_stroke! { Circle, svg }
 crate::attribute::stroke_width::implement_stroke_width! { Circle, svg }
+crate::attribute::id::implement_id! { Circle, svg }
 
 /*
 impl Fill for Circle {

@@ -7,6 +7,7 @@ use crate::attribute::{
     Fill,
     Stroke,
     StrokeWidth,
+    ID,
 };
 use crate::attribute::abs_pos::Scale;
 
@@ -108,6 +109,7 @@ impl AbsPos for Path {
 crate::attribute::fill::implement_fill! { Path, path }
 crate::attribute::stroke::implement_stroke! { Path, path }
 crate::attribute::stroke_width::implement_stroke_width! { Path, path }
+crate::attribute::id::implement_id! { Path, path }
 
 #[cfg(test)]
 mod path_tests {

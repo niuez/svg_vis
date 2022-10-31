@@ -9,6 +9,7 @@ use crate::attribute::{
     TextAnchor,
     DominantBaseline,
     FontSize,
+    ID,
 };
 use crate::attribute::abs_pos::Scale;
 use crate::attribute::text_anchor::TextAnchorValue;
@@ -44,6 +45,7 @@ crate::attribute::stroke::implement_stroke! { Text, svg }
 crate::attribute::stroke_width::implement_stroke_width! { Text, svg }
 crate::attribute::text_anchor::implement_text_anchor!{ Text, svg }
 crate::attribute::dominant_baseline::implement_dominant_baseline!{ Text, svg }
+crate::attribute::id::implement_id! { Text, svg }
 
 impl FontSize for Text {
     fn font_size<L: Into<Length>>(mut self, size: L) -> Self {

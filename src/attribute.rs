@@ -18,3 +18,6 @@ pub use dominant_baseline::DominantBaseline;
 
 pub mod font_size;
 pub use font_size::FontSize;
+
+pub mod id;
+pub use id::ID;

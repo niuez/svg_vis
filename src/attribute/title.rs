@@ -1,12 +1,16 @@
+
 pub trait Title {
-    fn title<S: ToString>(self, s: S) -> Self;
+    fn title<S: Into<String>>(self, s: S) -> Self;
 }
 
 macro_rules! implement_title {
     ($T:ty, $svg:ident) => (
         impl Title for $T {
-            fn title<S: ToString>(mut self, s: S) -> Self {
-                self.$svg = self.$svg.set("title", s.to_string());
+            fn title<S: Into<String>>(mut self, s: S) -> Self {
+                let text = svg::node::Text::new(s);
+                let title = svg::node::element::Title::new()
+                    .add(text);
+                self.$svg = self.$svg.add(title);
                 self
             }
         }

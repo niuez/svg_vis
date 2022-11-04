@@ -21,3 +21,6 @@ pub use font_size::FontSize;
 
 pub mod id;
 pub use id::ID;
+
+pub mod title;
+pub use title::Title;

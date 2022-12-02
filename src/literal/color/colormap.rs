@@ -1,6 +1,9 @@
 pub mod jet;
 pub use jet::Jet;
 
+pub mod inferno;
+pub use inferno::Inferno;
+
 use super::Color;
 
 pub trait ColorMap {

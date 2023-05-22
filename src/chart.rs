@@ -1,6 +1,7 @@
 use svg::Document;
 use svg::node::Value;
 use crate::attribute::{
+    ID,
     AbsPos,
 };
 use crate::literal::Length;
@@ -34,6 +35,13 @@ impl Chart {
     }
     pub fn draw<E: AbsPos, X: Into<Length>, Y: Into<Length>>(mut self, elem: E, x: X, y: Y) -> Self {
         self.svg = self.svg.add(elem.set_abs_pos(x.into() * self.scale.x, y.into() * self.scale.y, &self.scale));
+        self
+    }
+}
+
+impl ID for Chart {
+    fn id<S: Into<String>>(mut self, id: S) -> Self {
+        self.svg = self.svg.set("id", id.into());
         self
     }
 }

@@ -24,3 +24,6 @@ pub use id::ID;
 
 pub mod title;
 pub use title::Title;
+
+pub mod fill_rule;
+pub use fill_rule::{ FillRuleValue, FillRule };

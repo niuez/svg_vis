@@ -5,6 +5,8 @@ use svg::node::element::path::{
 use crate::attribute::{
     AbsPos,
     Fill,
+    FillRuleValue,
+    FillRule,
     Stroke,
     StrokeWidth,
     ID,
@@ -108,6 +110,7 @@ impl AbsPos for Path {
 }
 
 crate::attribute::fill::implement_fill! { Path, path }
+crate::attribute::fill_rule::implement_fillrule! { Path, path }
 crate::attribute::stroke::implement_stroke! { Path, path }
 crate::attribute::stroke_width::implement_stroke_width! { Path, path }
 crate::attribute::id::implement_id! { Path, path }

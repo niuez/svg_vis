@@ -4,6 +4,8 @@ use svg::node::Value;
 use crate::attribute::{
     AbsPos,
     Fill,
+    FillRule,
+    FillRuleValue,
     Stroke,
     StrokeWidth,
     TextAnchor,
@@ -42,6 +44,7 @@ impl Text {
 }
 
 crate::attribute::fill::implement_fill! { Text, svg }
+crate::attribute::fill_rule::implement_fillrule! { Text, svg }
 crate::attribute::stroke::implement_stroke! { Text, svg }
 crate::attribute::stroke_width::implement_stroke_width! { Text, svg }
 crate::attribute::text_anchor::implement_text_anchor!{ Text, svg }

@@ -3,6 +3,8 @@ use svg::node::element::Circle as SvgCircle;
 use crate::attribute::{
     AbsPos,
     Fill,
+    FillRuleValue,
+    FillRule,
     Stroke,
     StrokeWidth,
     ID,
@@ -42,6 +44,7 @@ impl AbsPos for Circle {
 }
 
 crate::attribute::fill::implement_fill! { Circle, svg }
+crate::attribute::fill_rule::implement_fillrule! { Circle, svg }
 crate::attribute::stroke::implement_stroke! { Circle, svg }
 crate::attribute::stroke_width::implement_stroke_width! { Circle, svg }
 crate::attribute::id::implement_id! { Circle, svg }
